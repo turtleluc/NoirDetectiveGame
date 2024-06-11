@@ -1,0 +1,73 @@
+[gd_scene load_steps=6 format=3 uid="uid://by0dv6qu5bqn"]
+
+[ext_resource type="Shader" path="res://Film.gdshader" id="1_60ydd"]
+[ext_resource type="Script" path="res://Npc.cs" id="2_mc7y7"]
+[ext_resource type="Texture2D" uid="uid://be0nto4as08mc" path="res://make-a-1940s-noir-art-styled-man-standing-full-body-1940-cartoon-art-style-empty-background-unrea.jpeg" id="2_o6siq"]
+[ext_resource type="Script" path="res://GameManeger.cs" id="3_vcnld"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p5sr3"]
+shader = ExtResource("1_60ydd")
+shader_parameter/projector_power = 0.384
+shader_parameter/vignette_param = 1.0
+
+[node name="GameScene" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Camera2D"]
+
+[node name="ColorRect" type="ColorRect" parent="Camera2D/CanvasLayer"]
+material = SubResource("ShaderMaterial_p5sr3")
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 2
+
+[node name="TextureButton" type="TextureButton" parent="." node_paths=PackedStringArray("gameManeger")]
+offset_left = 198.0
+offset_top = -188.0
+offset_right = 369.0
+offset_bottom = -17.0
+texture_normal = ExtResource("2_o6siq")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("2_mc7y7")
+DialogUIPath = NodePath("../NpcUi")
+gameManeger = NodePath("../GameManager")
+Npcname = "Hendrik"
+Questions = PackedStringArray("1", "2", "3")
+
+[node name="NpcUi" type="Node2D" parent="."]
+visible = false
+
+[node name="RichTextLabel" type="RichTextLabel" parent="NpcUi"]
+offset_left = -435.0
+offset_right = 435.0
+offset_bottom = 149.0
+
+[node name="Question1" type="Button" parent="NpcUi"]
+offset_left = -435.0
+offset_top = 180.0
+offset_right = -249.0
+offset_bottom = 235.0
+text = "question 1"
+
+[node name="Question2" type="Button" parent="NpcUi"]
+offset_left = -91.0
+offset_top = 180.0
+offset_right = 95.0
+offset_bottom = 235.0
+text = "question 2"
+
+[node name="Question3" type="Button" parent="NpcUi"]
+offset_left = 273.0
+offset_top = 180.0
+offset_right = 459.0
+offset_bottom = 235.0
+text = "question 3"
+
+[node name="GameManager" type="Node2D" parent="." node_paths=PackedStringArray("DialogUI")]
+script = ExtResource("3_vcnld")
+DialogUI = NodePath("../NpcUi")
+
+[connection signal="pressed" from="TextureButton" to="TextureButton" method="_on_pressed"]
+[connection signal="pressed" from="TextureButton" to="TextureButton" method="_on_pressed_npc"]
